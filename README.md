@@ -11,10 +11,17 @@ el proyecto inicia en el puerto http://localhost:3000/,el archivo app.js es dond
 Las carpetas del proyecto son
 
 actions. los actions de contacto , login
+
 constants. Son constantes para las acciones de redux
+
 contacto. Pagina de contacto
+
 helpers. Diversos archivos entre ellos , la cabecera para la autentificacion en las peticiones y configuraciones de redux
+
 layouts. Son donde se guardan los marcos para el login y el documento principal
+
 login. Se encuentra la pagina Login
+
 reduces. Residen los Reduces utilizados
+
 services. Se guardan las peticiones a la base de datos
