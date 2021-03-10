@@ -4,6 +4,7 @@ import { contactoActions } from '../actions';
 import Modal from "react-bootstrap/Modal";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import Buscar from '../componente/Buscar';
 import './Contacto.css';
 
 class Contacto extends React.Component {
@@ -17,9 +18,9 @@ class Contacto extends React.Component {
         apellidos:'',
         telefono:'',
         correo:'',
-        foto:''
+        foto:'',
+        value:''
       };
-    
     }
 
     openModal = () => this.setState({ isOpen: true,id:'',
@@ -34,7 +35,6 @@ class Contacto extends React.Component {
     this.showAll();
     }
 
-   
     
     eliminaContacto(id) {
    
@@ -42,13 +42,7 @@ class Contacto extends React.Component {
       this.showAll();
     }
 
-    
-     
-
-        
-    
-
-    editaContacto(idp,nombre_completop,apellidosp,telefonop,correop,fotop) {
+     editaContacto(idp,nombre_completop,apellidosp,telefonop,correop,fotop) {
      
       this.openModal();
 
@@ -66,28 +60,42 @@ class Contacto extends React.Component {
       const { dispatch } = this.props;
       dispatch(contactoActions.obtieneContactos() );
     }
+
+    handleOnClick =() => {
+      const { dispatch } = this.props;
+      dispatch(contactoActions.buscaContactos(this.state.value));
+    }
     
- 
+    onChangeValueHandler = (val) => {
+      this.setState({ value: val.target.value })
+    }
 
     render() {
       const { items,dispatch,itemContacto } = this.props;
-      const { isOpen,id, nombre_completo,apellidos,telefono,correo,foto } = this.state;
+      const { isOpen,id, nombre_completo,apellidos,telefono,correo,foto,value } = this.state;
 
-      console.log(itemContacto);
-
-      return (<div>
-           <div className="row">
-           <div className="col-lg-12">
-
-           <button type="button" className="btn btn-primary btn-sm float-left mt-2 mb-2" 
+        return (<div>
+               <div className="col-lg-12">
+                 <div className="row">
+                     <div className="col-lg-4">
+                         <button type="button" className="btn btn-primary btn-sm float-left mt-4 mb-2" 
                               onClick={(e) => { dispatch(contactoActions.obtieneContactos()) }}>
-                        ACTUALIZAR
-                      </button>
-                   
-                      <button type="button" className="btn btn-primary btn-sm float-right mt-2 mb-2" 
+                         ACTUALIZAR
+                         </button>
+                     </div>
+                    <div className="col-lg-4">
+                       <Buscar key={1} 
+                               value={value}
+                               onChangeValue={this.onChangeValueHandler} 
+                               presiona={() => this.handleOnClick ()} /> 
+                    </div>
+            <div className="col-lg-4">   
+                      <button type="button" className="btn btn-primary btn-sm float-right mt-4 mb-2" 
                               onClick={this.openModal}>
                         AGREGAR NUEVO
                       </button>
+             </div>
+                      
               
         <table className="table table-bordered table-striped text-center table-sm colortable">
          <thead>
@@ -128,6 +136,7 @@ class Contacto extends React.Component {
                     </tr>)}
               </tbody>
              }
+             
             </table>
             </div>
             <Modal show={isOpen} onHide={this.closeModal} backdrop="static">

@@ -1,15 +1,30 @@
 import { contactoConstants } from '../constants';
 import { contactoService } from '../services';
-import { alertActions } from './';
-import { history } from '../helpers';
+
 
 export const contactoActions = {
     obtieneContactos,
     eliminaContacto,
     agregarContacto,
     obtenerContactoById,
-    editarContacto
+    editarContacto,
+    buscaContactos
 };
+
+function buscaContactos(nombre) {
+
+    return dispatch => {
+
+        contactoService.buscaContactos(nombre)
+            .then(
+                result => dispatch(success(result)),
+                error => dispatch(failure(error))
+            );
+    };
+
+    function success(result) { return { type: contactoConstants.BUSCAR_SUCCESS , result } }
+    function failure(error) { return { type: contactoConstants.BUSCAR_FAILURE, error } }
+}
 
 function editarContacto(id,nombre_completo,apellidos,telefono, correo, foto) {
     return dispatch => {
@@ -58,8 +73,7 @@ function agregarContacto(nombre_completo,apellidos,telefono, correo, foto) {
 function eliminaContacto(contactoID) {
 
     return dispatch => {
-      //  dispatch(request());
-
+    
         contactoService.eliminaContacto(contactoID)
             .then(
                 resultdelete => dispatch(success(resultdelete)),
@@ -67,7 +81,7 @@ function eliminaContacto(contactoID) {
             );
     };
 
-    //function request() { return { type: contactoConstants.ELIMINA_REQUEST } }
+  
     function success(resultdelete) { return { type: contactoConstants.ELIMINA_SUCCESS, resultdelete } }
     function failure(error) { return { type: contactoConstants.ELIMINA_FAILURE, error } }
 }
@@ -75,8 +89,7 @@ function eliminaContacto(contactoID) {
 function obtieneContactos() {
 
     return dispatch => {
-        dispatch(request());
-
+       
         contactoService.obtieneContactos()
             .then(
                 result => dispatch(success(result)),
@@ -84,7 +97,6 @@ function obtieneContactos() {
             );
     };
 
-    function request() { return { type: contactoConstants.OBTIENETODOS_REQUEST } }
     function success(result) { return { type: contactoConstants.OBTIENETODOS_SUCCESS, result } }
     function failure(error) { return { type: contactoConstants.OBTIENETODOS_FAILURE, error } }
 }

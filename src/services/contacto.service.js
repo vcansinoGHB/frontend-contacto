@@ -5,7 +5,8 @@ export const contactoService = {
     eliminaContacto,
     agregarContacto,
     obtenerContactoById,
-    editarContacto
+    editarContacto,
+    buscaContactos
 };
 
 async function editarContacto(id,nombre_completo,apellidos,telefono, correo, foto) {
@@ -63,9 +64,24 @@ async function obtieneContactos() {
         method: 'GET',
         headers: authHeader()
     };
+
     console.log(requestOptions);
 
     const response = await fetch('http://localhost:4000/api/contactos/' , requestOptions);
+    return handleResponse(response);
+}
+
+async function buscaContactos(nombre) {
+
+    const requestOptions = {
+        method: 'POST',
+        headers: authHeader(),
+        body:JSON.stringify({ nombre })
+    };
+
+    console.log(requestOptions);
+
+    const response = await fetch('http://localhost:4000/api/contactos/busca' , requestOptions);
     return handleResponse(response);
 }
 

@@ -9,7 +9,6 @@ export function contactos(state = {}, action) {
       return {
         ...state,
         items: action.result
-        
       };
     case contactoConstants.OBTIENETODOS_FAILURE:
       return { 
@@ -49,15 +48,21 @@ export function contactos(state = {}, action) {
               error: action.error
          } 
     case contactoConstants.EDITA_SUCCESS:
-          return {
-             
-            resultedit: action.resultedit
-    
-          }
-      case contactoConstants.EDITA_FAILURE:
-           return {
-                error: action.error
-           }      
+        return {
+          resultedit: action.resultedit
+        }
+    case contactoConstants.EDITA_FAILURE:
+        return {
+          error: action.error
+        };
+    case contactoConstants.BUSCAR_SUCCESS :
+        return {
+           items: action.result
+        };   
+    case contactoConstants.BUSCAR_FAILURE:
+        return {
+           error: action.error
+        }; 
     default:
       return state
   }
